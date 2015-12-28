@@ -1,0 +1,16 @@
+{
+  "name": "request-timeout-keepalive",
+  "version": "0.9.1",
+  "description": "promised version of request adding ability to set TCP_KEEPINTVL and TCP_KEEPCNT so that request properly timeouts on invalid connections",
+  "main": "request-timeout-keepalive.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies" : {
+      "net-keepalive": "0.3.x",
+      "request": "2.67.x"
+  },
+  "author": "Petar Koretic <petar.koretic@gmail.com> (http://pkoretic.net)",
+  "license": "MIT",
+  "keywords": ["timeout", "keepalive", "setsockopt", "net", "tcp", "keep-alive", "request"]
+}
