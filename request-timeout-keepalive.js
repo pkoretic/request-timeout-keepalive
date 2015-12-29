@@ -18,24 +18,25 @@ module.exports = function(request_options, socket_options) {
         socket_options.keepAliveProbes = 1
 
     return new Promise(function(resolve, reject) {
-        let req = request(request_options, function(error, response, body) {
-            if (error) {
+        let req = request(request_options, function(error, response) {
+            if (error)
                 return reject(error)
-            }
-
-            resolve({
-                response: response,
-                body: body
-            })
+            else
+                resolve(response)
         })
 
         req.on('socket', function(socket) {
             if(process.env.NODE_ENV ===  'development')
                 console.info("request-timeout-keepalive: ", socket_options)
 
-            socket.setKeepAlive(true, socket_options.keepAliveInitialDelay)
-            keepalive.setKeepAliveInterval(socket, socket_options.keepAliveInterval)
-            keepalive.setKeepAliveProbes(socket, socket_options.keepAliveProbes)
+            try {
+                socket.setKeepAlive(true, socket_options.keepAliveInitialDelay)
+                keepalive.setKeepAliveInterval(socket, socket_options.keepAliveInterval)
+                keepalive.setKeepAliveProbes(socket, socket_options.keepAliveProbes)
+            }
+            catch(error) {
+                console.warn(error)
+            }
         })
 
         req.on('error', function(error) {
