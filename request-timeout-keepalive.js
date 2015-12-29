@@ -31,7 +31,7 @@ module.exports = function(request_options, socket_options) {
 
         req.on('socket', function(socket) {
             if(process.env.NODE_ENV ===  'development')
-                console.debug("request-timeout-keepalive: ", socket_options)
+                console.info("request-timeout-keepalive: ", socket_options)
 
             socket.setKeepAlive(true, socket_options.keepAliveInitialDelay)
             keepalive.setKeepAliveInterval(socket, socket_options.keepAliveInterval)
