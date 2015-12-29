@@ -9,13 +9,16 @@ module.exports = function(request_options, socket_options) {
         socket_options = {}
 
     if(socket_options.keepAliveInitialDelay === undefined)
-        socket_options.keepAliveInitialDelay = 1000
+        socket_options.keepAliveInitialDelay = 5000
 
     if(socket_options.keepAliveInterval === undefined)
-        socket_options.keepAliveInterval = 1000
+        socket_options.keepAliveInterval = 2500
 
     if(socket_options.keepAliveProbes === undefined)
-        socket_options.keepAliveProbes = 1
+        socket_options.keepAliveProbes = 2
+
+    if(request_options.timeout === undefined)
+        request_options.timeout = 5000
 
     return new Promise(function(resolve, reject) {
         let req = request(request_options, function(error, response) {
