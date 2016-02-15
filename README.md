@@ -24,6 +24,6 @@ let result =  yield request({
 })
 
 // result.response contains underlying response from 'request' module
-// result.body contains underlying body from 'reques' module
+// result.body contains underlying body from 'request' module
 
 ```
