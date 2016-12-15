@@ -38,7 +38,7 @@ module.exports = function(request_options, socket_options) {
                 keepalive.setKeepAliveProbes(socket, socket_options.keepAliveProbes)
             }
             catch(error) {
-                console.warn(error)
+                console.warn("Unable to set keepalive on connection socket:", error.message)
             }
         })
 
