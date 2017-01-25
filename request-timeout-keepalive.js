@@ -29,17 +29,19 @@ module.exports = function(request_options, socket_options) {
         })
 
         req.on('socket', function(socket) {
-            if(process.env.NODE_ENV ===  'development')
-                console.info("request-timeout-keepalive: ", socket_options)
+            socket.on('connect', function() {
+                if(process.env.NODE_ENV ===  'development')
+                    console.info("request-timeout-keepalive: ", socket_options)
 
-            try {
-                socket.setKeepAlive(true, socket_options.keepAliveInitialDelay)
-                keepalive.setKeepAliveInterval(socket, socket_options.keepAliveInterval)
-                keepalive.setKeepAliveProbes(socket, socket_options.keepAliveProbes)
-            }
-            catch(error) {
-                console.warn("Unable to set keepalive on connection socket:", error.message)
-            }
+                try {
+                    socket.setKeepAlive(true, socket_options.keepAliveInitialDelay)
+                    keepalive.setKeepAliveInterval(socket, socket_options.keepAliveInterval)
+                    keepalive.setKeepAliveProbes(socket, socket_options.keepAliveProbes)
+                }
+                catch(error) {
+                    console.warn("Unable to set keepalive on connection socket:", error.message)
+                }
+            })
         })
 
         req.on('error', function(error) {
