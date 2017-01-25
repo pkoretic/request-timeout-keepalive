@@ -29,7 +29,8 @@ module.exports = function(request_options, socket_options) {
         })
 
         req.on('socket', function(socket) {
-            socket.on('connect', function() {
+
+            function setOptions() {
                 if(process.env.NODE_ENV ===  'development')
                     console.info("request-timeout-keepalive: ", socket_options)
 
@@ -41,7 +42,15 @@ module.exports = function(request_options, socket_options) {
                 catch(error) {
                     console.warn("Unable to set keepalive on connection socket:", error.message)
                 }
-            })
+            }
+
+            // if domain is used instead of ip address, file descriptor is not ready because DNS
+            // resolve is still in progress so we wait for connect signal which will in turn give
+            // valid file descriptor
+            if(socket._handle.fd != -1)
+                setOptions()
+            else
+                socket.on('connect', function() { setOptions() })
         })
 
         req.on('error', function(error) {
